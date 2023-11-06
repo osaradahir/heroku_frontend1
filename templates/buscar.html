@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Buscar contacto</title>
+</head>
+<body>
+    <h1>Buscar contacto</h1>
+
+    <input type="text" id="emailInput" placeholder="Ingrese el correo electrónico">
+    <button onclick="searchContact()">Buscar</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody id="tbody_contactos">
+            <!-- Aquí se mostrarán los resultados de la búsqueda -->
+        </tbody>
+    </table>
+
+    <script>
+        function searchContact() {
+            const email = document.getElementById("emailInput").value;
+            getContactByEmail(email);
+        }
+    </script>
+
+    <script type="text/javascript" src="../static/js/get_all.js"></script>
+</body>
+</html>
