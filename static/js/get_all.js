@@ -1,44 +1,68 @@
-function getAll(){
-    var request = new XMLHttpRequest;
-    //request.open('GET',"http://127.0.0.1:8000/contactos");
-    request.open('GET',"https://backendapi-b8813c2df8d9.herokuapp.com");
+function getAll() {
+    var request = new XMLHttpRequest();
+    request.open('GET', "http://127.0.0.1:8000/contactos");
     request.send();
 
     request.onload = (e) => {
         const response = request.responseText;
         const json = JSON.parse(response);
+
         console.log("response: " + response);
         console.log("json: " + json);
         console.log("status_code: " + request.status);
 
-        console.log("Email: " + json[0]["email"]);
-        console.log("Nombre: " + json[0]["nombre"]);
-        console.log("Telefono: " + json[0]["telefono"]);
-
         const tbody_contactos = document.getElementById("tbody_contactos");
-    
-        var tr = document.createElement("tr");
-        var td_email = document.createElement("td");
-        var td_nombre = document.createElement("td");
-        var td_telefono = document.createElement("td");
 
-        td_email.innerHTML = json[1]["email"];
-        td_nombre.innerHTML = json[1]["nombre"];
-        td_telefono.innerHTML = json[1]["telefono"];
+        tbody_contactos.innerHTML = "";
 
-        tr.appendChild(td_email);
-        tr.appendChild(td_nombre);
-        tr.appendChild(td_telefono);
+        json.forEach(contacto => {
+            var tr = document.createElement("tr");
+            var td_email = document.createElement("td");
+            var td_nombre = document.createElement("td");
+            var td_telefono = document.createElement("td");
+            var td_opciones = document.createElement("td");
 
-        tbody_contactos.appendChild(tr);
+            td_email.innerHTML = contacto["email"];
+            td_nombre.innerHTML = contacto["nombre"];
+            td_telefono.innerHTML = contacto["telefono"];
 
+            var btnVer = document.createElement("button");
+            btnVer.innerHTML = "Ver";
+            btnVer.onclick = function() {
+                window.location.href = "/ver?email=" + encodeURIComponent(contacto["email"]);
+            };
+
+            var btnActualizar = document.createElement("button");
+            btnActualizar.innerHTML = "Actualizar";
+            btnActualizar.onclick = function() {
+                window.location.href = "/actualizar?email=" + encodeURIComponent(contacto["email"]);
+            };
+
+            var btnBorrar = document.createElement("button");
+            btnBorrar.innerHTML = "Borrar";
+            btnBorrar.onclick = function() {
+                window.location.href = "/borrar?email=" + encodeURIComponent(contacto["email"]);
+            };
+
+            td_opciones.appendChild(btnVer);
+            td_opciones.appendChild(btnActualizar);
+            td_opciones.appendChild(btnBorrar);
+
+            tr.appendChild(td_email);
+            tr.appendChild(td_nombre);
+            tr.appendChild(td_telefono);
+            tr.appendChild(td_opciones);
+
+            tbody_contactos.appendChild(tr);
+        });
     };
-};
+}
+
 
 function getContactByEmail(email) {
     var request = new XMLHttpRequest();
-    //request.open('GET', "http://127.0.0.1:8000/contactos");
-    request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com");
+    request.open('GET', "http://127.0.0.1:8000/contactos");
+    //request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com");
     request.send();
 
     request.onload = function (e) {
@@ -49,7 +73,7 @@ function getContactByEmail(email) {
             for (let i = 0; i < json.length; i++) {
                 if (json[i].email === email) {
                     const tbody_contactos = document.getElementById("tbody_contactos");
-                    tbody_contactos.innerHTML = ''; // Limpiamos la tabla antes de agregar nuevos datos.
+                    tbody_contactos.innerHTML = ''; 
 
                     var tr = document.createElement("tr");
                     var td_email = document.createElement("td");
@@ -66,7 +90,7 @@ function getContactByEmail(email) {
 
                     tbody_contactos.appendChild(tr);
 
-                    return; // Terminamos la búsqueda después de encontrar el primer contacto.
+                    return;
                 }
             }
 
