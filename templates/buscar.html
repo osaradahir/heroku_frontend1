@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <title>Buscar contacto</title>
+    <script type="text/javascript" src="../static/js/get_all.js"></script>
 </head>
 <body>
     <h1>Buscar contacto</h1>
@@ -21,14 +22,15 @@
             <!-- Aquí se mostrarán los resultados de la búsqueda -->
         </tbody>
     </table>
-
+    <button onclick="cancelar()">Volver</button>
     <script>
+        function cancelar() {
+            window.location.href = "/";
+        }
         function searchContact() {
             const email = document.getElementById("emailInput").value;
             getContactByEmail(email);
         }
     </script>
-
-    <script type="text/javascript" src="../static/js/get_all.js"></script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Inserir contacto</title>
+    <script type="text/javascript" src="../static/js/get_all.js"></script>
+    <script type="text/javascript" src="../static/js/post.js"></script>
+</head>
+<body>
+    <h1>Inserir contacto</h1>
+    <label for="text">Nombre</label>
+    <br>
+    <input type="text" id="nombreInput" placeholder="Ingrese el Nombre">
+    <br>
+    <label for="text">Correo</label>
+    <br>
+    <input type="email" id="emailInput" placeholder="Ingrese el Correo">
+    <br>
+    <label for="text">Teléfono</label>
+    <br>
+    <input type="tel" id="telefonoInput" placeholder="Ingrese el Teléfono">
+    <br>
+    <button onclick="insertContact()">Ingresar</button>
+    <button onclick="cancelar()">Cancelar</button>
+
+
+    <script>
+        function cancelar() {
+            window.location.href = "/";
+        }
+        function insertContact() {
+            const nombre = document.getElementById("nombreInput").value;
+            const email = document.getElementById("emailInput").value;
+            const telefono = document.getElementById("telefonoInput").value;
+
+            insertContactPost(nombre, email, telefono);
+        }
+    </script>
+</body>
+</html>

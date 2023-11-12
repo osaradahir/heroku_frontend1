@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ver Contacto</title>
+    <script type="text/javascript" src="../static/js/delete.js"></script>
+</head>
+
+<body>
+    <table border="1" id="table_contactos">
+        <thead id="thead_contactos">
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+        </thead>
+        <tbody id="tbody_contactos">
+        </tbody>
+    </table>
+    <button onclick="deleteContacto()">Borrar</button>
+    <button onclick="cancelar()">Cancelar</button>
+    <script>
+        document.body.onload = getContacto();
+        function cancelar() {    
+            window.location.href = "/"; 
+        }
+    </script>
+</body>
+</html>
