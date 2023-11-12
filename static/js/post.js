@@ -16,6 +16,7 @@ function insertContactPost(nombre, email, telefono) {
         if (request.status == 200) {
             const data = JSON.parse(request.responseText);
             alert("Contacto ingresado:\nNombre: " + data.nombre + "\nEmail: " + data.email + "\nTeléfono: " + data.telefono);
+            window.location.href = "/";
         } else {
             console.error('Error:', request.status, request.statusText);
         }
