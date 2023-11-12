@@ -2,7 +2,8 @@ function insertContactPost(nombre, email, telefono) {
     console.log("Enviando solicitud POST...");
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://127.0.0.1:8000/contactos');
+    //request.open('POST', 'http://127.0.0.1:8000/contactos');
+    request.open('POST', 'https://backendapi-b8813c2df8d9.herokuapp.com/contactos');
     request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     const nuevoContacto = {
