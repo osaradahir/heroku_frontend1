@@ -3,7 +3,8 @@ function cargarContacto() {
     const email = params.get('email');
 
     var request = new XMLHttpRequest();
-    request.open('GET', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
+    //request.open('GET', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
+    request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos/" + encodeURIComponent(email));
     request.send();
 
     request.onload = (e) => {
@@ -32,7 +33,8 @@ function putContacto() {
     const telefonoActualizado = document.getElementById("telefonoInput").value;
 
     var request = new XMLHttpRequest();
-    request.open('PUT', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
+    //request.open('PUT', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
+    request.open('PUT', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos/" + encodeURIComponent(email));
     request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     const datosActualizados = {
