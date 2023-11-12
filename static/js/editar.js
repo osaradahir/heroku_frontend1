@@ -50,6 +50,7 @@ function putContacto() {
 
         if (request.status === 200) {
             console.log("Contacto actualizado correctamente.");
+            window.location.href = "/";
         } else {
             console.error("Error al actualizar el contacto.");
         }
