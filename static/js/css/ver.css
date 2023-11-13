@@ -1,23 +1,51 @@
-/* Estilos para centrar el contenido */
-.center-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* Esto centrará verticalmente en la página */
-}
-
 /* Estilos para la tabla */
 .table-container {
-  width: 80%; /* Ajusta el ancho de la tabla según tus necesidades */
-  margin-top: 20px;
+  width: 80%;
+  text-align: center; /* Centra horizontalmente el contenido de la tabla */
+  margin-top: 15%; /* Centra la tabla verticalmente en la mitad de la página */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Estilos para el botón y el input */
+.datagrid {
+  font-size: 16px;
+  border-collapse: collapse;
+  width: 100%;
+  /* margin: 0 auto; */ /* No es necesario ya que está dentro de .table-container */
+}
+
+/* Estilo para las cabeceras de la tabla */
+.datagrid th {
+  background-color: #006699;
+  color: #FFFFFF;
+  width: 33.33%; /* Establece el ancho igual para cada columna */
+}
+
+/* Estilos para las celdas pares de la tabla */
+.datagrid tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para las celdas impares de la tabla */
+.datagrid tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Estilos para las celdas de datos */
+.datagrid td {
+  width: 33.33%; /* Establece el ancho igual para cada columna de datos */
+  padding: 10px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+/* Estilos para el botón */
 .button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 10px 30px;
   background: #006699;
   color: #FFFFFF;
   border: 1px solid #006699;
@@ -25,116 +53,11 @@
   text-decoration: none;
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
-  margin-top: 10px; /* Ajusta el margen superior del botón según tus necesidades */
+  margin: 0 10px;
+  font-size: 20px;
+  margin-top: 5%;
 }
 
 .button:hover {
-  background: #00557F;
-}
-
-/* Estilos para la tabla */
-.datagrid table {
-  border-collapse: collapse;
-  text-align: left;
-  width: 100%;
-}
-
-/* Estilos generales para el contenedor .datagrid */
-.datagrid {
-  font: normal 12px/150% Arial, Helvetica, sans-serif;
-  background: #fff;
-  overflow: hidden;
-  border: 1px solid #006699;
-  border-radius: 3px; /* Utilizar una sola propiedad para border-radius */
-}
-
-/* Estilos para las celdas de la tabla */
-.datagrid table td,
-.datagrid table th {
-  padding: 3px 10px;
-}
-
-/* Estilos para las celdas de encabezado de la tabla */
-.datagrid table thead th {
-  background: #006699;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
-  border-left: 1px solid #0070A8;
-}
-
-/* Eliminar el borde izquierdo del primer encabezado de la tabla */
-.datagrid table thead th:first-child {
-  border: none;
-}
-
-/* Estilos para las celdas del cuerpo de la tabla */
-.datagrid table tbody td {
-  color: #00496B;
-  border-left: 1px solid #E1EEF4;
-  font-size: 12px;
-  font-weight: normal;
-}
-
-/* Estilos para filas alternas en el cuerpo de la tabla */
-.datagrid table tbody .alt td {
-  background: #E1EEF4;
-  color: #00496B;
-}
-
-/* Eliminar el borde izquierdo de la primera celda en el cuerpo de la tabla */
-.datagrid table tbody td:first-child {
-  border-left: none;
-}
-
-/* Eliminar el borde inferior de la última fila en el cuerpo de la tabla */
-.datagrid table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Estilos para el pie de la tabla */
-.datagrid table tfoot td div {
-  border-top: 1px solid #006699;
-  background: #E1EEF4;
-  padding: 0;
-  font-size: 12px;
-}
-
-/* Establecer el espaciado dentro del div del pie de la tabla */
-.datagrid table tfoot td div {
-  padding: 2px;
-}
-
-/* Estilos para la lista en el pie de la tabla */
-.datagrid table tfoot td ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: right;
-}
-
-/* Estilos para los elementos de la lista en el pie de la tabla */
-.datagrid table tfoot li {
-  display: inline;
-}
-
-/* Estilos para los enlaces dentro de la lista en el pie de la tabla */
-.datagrid table tfoot li a {
-  text-decoration: none;
-  display: inline-block;
-  padding: 2px 8px;
-  margin: 1px;
-  color: #FFFFFF;
-  border: 1px solid #006699;
-  border-radius: 3px;
-  background: #006699;
-}
-
-/* Estilos para los enlaces activos o en hover en el pie de la tabla */
-.datagrid table tfoot ul.active,
-.datagrid table tfoot ul a:hover {
-  text-decoration: none;
-  border-color: #006699;
-  color: #FFFFFF;
   background: #00557F;
 }

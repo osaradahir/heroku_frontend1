@@ -3,7 +3,7 @@ function getContacto() {
     const email = params.get('email');
 
     var request = new XMLHttpRequest();
-    //request.open('GET', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
+    // request.open('GET', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
     request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos/" + encodeURIComponent(email));
     request.send();
 
