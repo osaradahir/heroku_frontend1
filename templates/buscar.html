@@ -2,27 +2,30 @@
 <html lang="es">
 <head>
     <title>Buscar contacto</title>
+    <link rel="stylesheet" type="text/css" href="../styles/buscar.css">
     <script type="text/javascript" src="../static/js/get_all.js"></script>
 </head>
 <body>
     <h1>Buscar contacto</h1>
 
-    <input type="text" id="emailInput" placeholder="Ingrese el correo electrónico">
-    <button onclick="searchContact()">Buscar</button>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-            </tr>
-        </thead>
-        <tbody id="tbody_contactos">
-            <!-- Aquí se mostrarán los resultados de la búsqueda -->
-        </tbody>
-    </table>
-    <button onclick="cancelar()">Volver</button>
+    <input type="text" id="emailInput" class="search-input" placeholder="Ingrese el correo electrónico">
+    <button onclick="searchContact()" class="button">Buscar</button>
+    <div class="table-container">
+            <h2>Resultados</h2>
+        <table class="datagrid">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_contactos">
+                <!-- Aquí se mostrarán los resultados de la búsqueda -->
+            </tbody>
+        </table>
+    </div>
+    <button onclick="cancelar()" class="button">Volver</button>
     <script>
         function cancelar() {
             window.location.href = "/";

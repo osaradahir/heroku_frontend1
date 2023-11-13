@@ -2,28 +2,30 @@
 <html lang="es">
     <head>
         <title>Contactos</title>
+        <link rel="stylesheet" type="text/css" href="../styles/tablas.css">
         <script type="text/javascript" src="../static/js/get_all.js"></script>
     </head>
 
     <body>
         <h1>Contactos</h1>
-        <a href="buscar">Buscar</a>
-        <a href="insertar">Insertar</a>
+        <a href="buscar" class="button">Buscar</a>
+        <a href="insertar" class="button">Insertar</a>
         <br>
         <br>
-        <table border="1" id="table_contactos">
-            <thead id="thead_contactos">
-                <th>Email</th>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Opciones</th>
-            </thead>
-            <tbody id="tbody_contactos">
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table border="1" id="table_contactos" class="datagrid">
+                <thead id="thead_contactos">
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Opciones</th>
+                </thead>
+                <tbody id="tbody_contactos">
+                </tbody>
+            </table>
+        </div>
         <script>
             document.body.onload = getAll();
         </script>
     </body>
 </html>
-

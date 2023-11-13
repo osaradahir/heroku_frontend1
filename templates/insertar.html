@@ -3,24 +3,23 @@
 <head>
     <title>Insertar contacto</title>
     <script type="text/javascript" src="../static/js/get_all.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/insertar.css">
     <script type="text/javascript" src="../static/js/post.js"></script>
 </head>
 <body>
-    <h1>Insertar Contacto</h1>
-    <label for="text">Nombre</label>
-    <br>
-    <input type="text" id="nombreInput" placeholder="Ingrese el Nombre">
-    <br>
-    <label for="text">Correo</label>
-    <br>
-    <input type="email" id="emailInput" placeholder="Ingrese el Correo">
-    <br>
-    <label for="text">Teléfono</label>
-    <br>
-    <input type="tel" id="telefonoInput" placeholder="Ingrese el Teléfono">
-    <br>
-    <button onclick="insertContact()">Ingresar</button>
-    <button onclick="cancelar()">Cancelar</button>
+    <div class="center-content">
+        <h1>Insertar Contacto</h1>
+        <label for="text">Nombre</label>
+        <input type="text" id="nombreInput" class="input" placeholder="Ingrese el Nombre">
+        <label for="text">Correo</label>
+        <input type="email" id="emailInput" class="input" placeholder="Ingrese el Correo">
+        <label for="text">Teléfono</label>
+        <input type="tel" id="telefonoInput" class="input" placeholder="Ingrese el Teléfono">
+        <div class="button-container">
+            <button onclick="insertContact()" class="button">Ingresar</button>
+            <button onclick="cancelar()" class="button">Cancelar</button>
+        </div>
+    </div>
 
 
     <script>

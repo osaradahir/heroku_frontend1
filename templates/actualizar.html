@@ -2,26 +2,25 @@
 <html lang="es">
 <head>
     <title>Actualizar Contacto</title>
+    <link rel="stylesheet" type="text/css" href="../styles/actualizar.css">
     <script type="text/javascript" src="../static/js/editar.js"></script>
 </head>
 
 <body>
-    <h1>Actualizar Contacto</h1>
+    <div class="center-content">
+        <h1>Actualizar Contacto</h1>
 
-    <label for="text">Nombre</label>
-    <br>
-    <input type="text" id="nombreInput" placeholder="Ingrese el Nombre">
-    <br>
-    <label for="text">Correo</label>
-    <br>
-    <input type="email" id="emailInput" placeholder="Ingrese el Correo">
-    <br>
-    <label for="text">Teléfono</label>
-    <br>
-    <input type="tel" id="telefonoInput" placeholder="Ingrese el Teléfono">
-    <br>
-    <button onclick="putContacto()">Actualizar</button>
-    <button onclick="cancelar()">Cancelar</button>
+        <label for="text">Nombre</label>
+        <input type="text" id="nombreInput" class="input" placeholder="Ingrese el Nombre">
+        <label for="text">Correo</label>
+        <input type="email" id="emailInput" class="input" placeholder="Ingrese el Correo">
+        <label for="text">Teléfono</label>
+        <input type="tel" id="telefonoInput" class="input" placeholder="Ingrese el Teléfono">
+        <div class="button-container">
+            <button onclick="putContacto()" class="button">Actualizar</button>
+            <button onclick="cancelar()" class="button">Cancelar</button>
+        </div>
+    </div>
     <script>
         function cancelar() {    
             window.location.href = "/"; 
