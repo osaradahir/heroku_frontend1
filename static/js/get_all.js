@@ -1,104 +1,129 @@
-function getAll() {
-    var request = new XMLHttpRequest();
-    //request.open('GET', "http://127.0.0.1:8000/contactos");
-    request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos");
-    request.send();
+const SERVER_URL = "http://127.0.0.1:8000";
+const CONTACTS_ENDPOINT = "/contactos";
 
-    request.onload = (e) => {
-        const response = request.responseText;
-        const json = JSON.parse(response);
+async function getAll() {
+    const token = sessionStorage.getItem('token');
 
-        console.log("response: " + response);
-        console.log("json: " + json);
-        console.log("status_code: " + request.status);
+    if (!token) {
+        console.error('Token not found. Redirecting to login page.');
+        window.location.href = '/login';
+        return;
+    }
 
-        const tbody_contactos = document.getElementById("tbody_contactos");
+    try {
+        const serverStatusResponse = await checkServerStatus();
 
-        tbody_contactos.innerHTML = "";
+        if (serverStatusResponse.status === 200) {
+            const contactsResponse = await fetchContacts(token);
 
-        json.forEach(contacto => {
-            var tr = document.createElement("tr");
-            var td_email = document.createElement("td");
-            var td_nombre = document.createElement("td");
-            var td_telefono = document.createElement("td");
-            var td_opciones = document.createElement("td");
-
-            td_email.innerHTML = contacto["email"];
-            td_nombre.innerHTML = contacto["nombre"];
-            td_telefono.innerHTML = contacto["telefono"];
-
-            var btnVer = document.createElement("button");
-            btnVer.innerHTML = "Ver";
-            btnVer.onclick = function() {
-                window.location.href = "/ver?email=" + encodeURIComponent(contacto["email"]);
-            };
-
-            var btnActualizar = document.createElement("button");
-            btnActualizar.innerHTML = "Actualizar";
-            btnActualizar.onclick = function() {
-                window.location.href = "/actualizar?email=" + encodeURIComponent(contacto["email"]);
-            };
-
-            var btnBorrar = document.createElement("button");
-            btnBorrar.innerHTML = "Borrar";
-            btnBorrar.onclick = function() {
-                window.location.href = "/borrar?email=" + encodeURIComponent(contacto["email"]);
-            };
-
-            td_opciones.appendChild(btnVer);
-            td_opciones.appendChild(btnActualizar);
-            td_opciones.appendChild(btnBorrar);
-
-            tr.appendChild(td_email);
-            tr.appendChild(td_nombre);
-            tr.appendChild(td_telefono);
-            tr.appendChild(td_opciones);
-
-            tbody_contactos.appendChild(tr);
-        });
-    };
-}
-
-
-function getContactByEmail(email) {
-    var request = new XMLHttpRequest();
-    //request.open('GET', "http://127.0.0.1:8000/contactos");
-    request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos");
-    request.send();
-
-    request.onload = function (e) {
-        if (request.status === 200) {
-            const response = request.responseText;
-            const json = JSON.parse(response);
-
-            for (let i = 0; i < json.length; i++) {
-                if (json[i].email === email) {
-                    const tbody_contactos = document.getElementById("tbody_contactos");
-                    tbody_contactos.innerHTML = ''; 
-
-                    var tr = document.createElement("tr");
-                    var td_email = document.createElement("td");
-                    var td_nombre = document.createElement("td");
-                    var td_telefono = document.createElement("td");
-
-                    td_email.innerHTML = json[i].email;
-                    td_nombre.innerHTML = json[i].nombre;
-                    td_telefono.innerHTML = json[i].telefono;
-
-                    tr.appendChild(td_email);
-                    tr.appendChild(td_nombre);
-                    tr.appendChild(td_telefono);
-
-                    tbody_contactos.appendChild(tr);
-
-                    return;
-                }
+            if (contactsResponse.status === 200) {
+                handleContactsResponse(await contactsResponse.json());
+            } else {
+                handleErrorResponse(contactsResponse.status, contactsResponse.statusText);
             }
-
-            console.log("Contacto no encontrado para el correo electrónico: " + email);
+        } else if (serverStatusResponse.status === 401) {
+            window.location.href = "/login";
+            alert("Token Invalido");
         } else {
-            console.log("Error al cargar los datos. Código de estado: " + request.status);
+            handleErrorResponse(serverStatusResponse.status, serverStatusResponse.statusText);
         }
-    };
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('statusMessage').innerText = 'Error checking server status';
+    }
 }
 
+async function fetchContacts(token) {
+    try {
+        const response = await fetch(`${SERVER_URL}${CONTACTS_ENDPOINT}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+        throw error;
+    }
+}
+
+function checkServerStatus() {
+    return fetch(`${SERVER_URL}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+    });
+}
+
+function handleContactsResponse(json) {
+    const tbody_contactos = document.getElementById("tbody_contactos");
+    tbody_contactos.innerHTML = "";
+
+    for (const contacto of json) {
+        const tr = document.createElement("tr");
+        tr.appendChild(createTableCell(contacto["email"]));
+        tr.appendChild(createTableCell(contacto["nombre"]));
+        tr.appendChild(createTableCell(contacto["telefono"]));
+        tr.appendChild(createOptionsCell(contacto["email"]));
+
+        tbody_contactos.appendChild(tr);
+    }
+}
+
+function createTableCell(value) {
+    const td = document.createElement("td");
+    td.textContent = value;
+    return td;
+}
+
+function createOptionsCell(email) {
+    const td = document.createElement("td");
+    td.innerHTML = `<a href='/ver?email=${email}'>Ver</a> <a href='/actualizar?email=${email}'>Editar</a> <a href='/borrar?email=${email}'>Borrar</a>`;
+    return td;
+}
+
+function handleErrorResponse(status, statusText) {
+    console.error(`Error: ${status} - ${statusText}`);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    getAll();
+});if (contactsResponse.status === 200) {
+           
+
+
+// Obtén el parámetro 'id' de la URL
+const urlParams = new URLSearchParams(window.location.search);
+const email = urlParams.get('email');
+checarStatus();
+
+async function checarStatus(){
+    respuestaServidor = await fetch(`${SERVER_URL}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+    });
+
+    try{
+
+        if (respuestaServidor.status === 200){
+            // Llama a la función para obtener y mostrar el registro
+            getContactById(email);
+
+
+        } else if (respuestaServidor.status === 401){
+            window.location.href = "/";
+            return alert("Token invalido");
+        } else {
+            manejarRespuestaError(respuestaServidorStatus.status, respuestaServidorStatus.statusText);
+        }
+    } catch (error) {
+        console.error("Error", error);
+        document.getElementById("statusMessage").innerHTML = "Error checando el estado del servidor";
+    }
+}
+}

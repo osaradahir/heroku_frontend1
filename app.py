@@ -8,6 +8,18 @@ def index():
     message = "Hello, World"
     return render_template('index.html', message=message)
 
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
+@app.route("/registro")
+def registro():
+    return render_template('registro.html')  
+
+@app.route("/inicio")
+def inicio():
+    return render_template('inicio.html')
+
 @app.route("/buscar")
 def buscar():
     return render_template('buscar.html')
@@ -31,3 +43,6 @@ def actualizar():
 @app.route("/borrar")
 def borrar():
     return render_template('borrar.html')
+
+if __name__ == "__main__":
+    app.run(debug=True)

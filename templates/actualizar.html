@@ -23,9 +23,70 @@
     </div>
     <script>
         function cancelar() {    
-            window.location.href = "/"; 
+            window.location.href = "/inicio";
         }
         document.body.onload = cargarContacto();
+        async function putContacto() {
+            var nombreInput = document.getElementById("nombreInput");
+            var telefonoInput = document.getElementById("telefonoInput");
+            var emailInput = document.getElementById("emailInput");
+            var email = emailInput.value;
+            var telefono = telefonoInput.value;
+            var nombre = nombreInput.value;
+
+            verificar = await checarStatus();
+
+            if (verificar.status === 200) {
+                updateData(email, nombre, telefono);
+            } else if (verificar.status === 401) {
+                window.location.href = "/login";
+                return alert("Token inválido");
+            } else {
+                return alert("Ocurrió un error");
+            }
+        }
+
+        function checarStatus() {
+            return fetch('http://127.0.0.1:8000/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                }
+            });
+        }
+
+        function handleServerError(error) {
+            console.error('Error en la solicitud:', error.message || error.statusText);
+            document.getElementById('statusMessage').innerText = 'Error al procesar la solicitud';
+        }
+
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://127.0.0.1/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                    }
+                });
+                if (response.status === 401) {
+                    window.location.href = "/login";
+                }
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('statusMessage').innerText = `Server response: ${data.message}`;
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error checking server status:', errorData);
+                    document.getElementById('statusMessage').innerText = `Error: ${errorData.message}`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('statusMessage').innerText = 'Error checking server status';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkServerStatus);
     </script>
 </body>
 </html>

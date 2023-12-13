@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+<body>
+    <center>
+        <div id="registroSection">
+            <form id="registroForm">
+                <br>
+                <h1>Registro</h1>
+
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <p><label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required></p>
+                <p><button type="button" onclick="registrarUsuario()">Registrar</button></p>
+                <p><a href="/login">Ya tengo una cuenta, iniciar sesión</a></p>
+                <hr size="10" color="black">
+            </form>
+        </div>
+    </center>
+
+    <script>
+        async function registrarUsuario() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const data = {
+                username: username,
+                password: password
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/usuarios/registro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("¡Usuario registrado correctamente!\nTu token es: " + result.token);
+                    // Redirigir a la página de inicio de sesión después del registro
+                    window.location.href = "/login";
+                } else {
+                    alert("Error al registrar usuario: " + result.message);
+                }
+
+            } catch (error) {
+                console.error('Error al registrar usuario:', error);
+                alert('Error al registrar usuario. Consulta la consola para más detalles.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Ver Contacto</title>
+    <title>Borrar Contacto</title>
     <link rel="stylesheet" href="../static/js/css/borrar.css">
     <script type="text/javascript" src="../static/js/delete.js"></script>
 </head>
 
 <body>
-    <div class="table-container ">
+    <div class="table-container">
         <table id="table_contactos" class="datagrid">
             <thead id="thead_contactos">
                 <th>Email</th>
@@ -18,14 +18,39 @@
             </tbody>
         </table>
         <div>
-            <button onclick="deleteContacto()" class="button">Borrar</button>
+            <button onclick="deleteContact()" class="button">Borrar</button>
             <button onclick="cancelar()" class="button">Cancelar</button>
         </div>
     </div>
+    <div id="statusMessage"></div>
     <script>
-        document.body.onload = getContacto();
         function cancelar() {    
-            window.location.href = "/"; 
+            window.location.href = "/inicio";
+        }
+
+        async function deleteContact() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            verificar = await checarStatus();
+
+            if (verificar.status === 200) {
+                deleteData(email);
+            } else if (verificar.status === 401) {
+                window.location.href = "/login";
+                return alert("Token inválido");
+            } else {
+                return alert("Ocurrió un error");
+            }
+        }
+
+        function checarStatus() {
+            return fetch('http://127.0.0.1:8000/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                }
+            });
         }
     </script>
 </body>

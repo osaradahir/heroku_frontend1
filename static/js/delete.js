@@ -1,23 +1,54 @@
-function getContacto() {
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get('email');
+const SERVER_URL = "http://127.0.0.1:8000";
 
-    var request = new XMLHttpRequest();
-    //request.open('GET', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
-    request.open('GET', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos/" + encodeURIComponent(email));
+const urlParams = new URLSearchParams(window.location.search);
+const email = urlParams.get('email');
+
+checarStatus();
+
+async function checarStatus() {
+    respuestaServidor = await fetch(`${SERVER_URL}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+    });
+
+    try {
+        if (respuestaServidor.status === 200) {
+            getContactById(email);
+        } else if (respuestaServidor.status === 401) {
+            window.location.href = "/login";
+            return alert("Token inválido");
+        } else {
+            manejarRespuestaError(respuestaServidorStatus.status, respuestaServidorStatus.statusText);
+        }
+    } catch (error) {
+        console.error("Error", error);
+        document.getElementById("statusMessage").innerHTML = "Error checando el estado del servidor";
+    }
+}
+
+function getContactById(email) {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+        console.error('Token not found. Redirecting to login page.');
+        window.location.href = '/login';
+        return;
+    }
+
+    const request = new XMLHttpRequest();
+    request.open('GET', "http://127.0.0.1:8000/contactos/" + email);
+    request.setRequestHeader('Authorization', `Bearer ${token}`);
     request.send();
 
     request.onload = (e) => {
-        const response = request.responseText;
-        const contacto = JSON.parse(response);
+        if (request.status === 200) {
+            const response = request.responseText;
+            const contacto = JSON.parse(response);
+            console.log(contacto);
 
-        console.log("response: " + response);
-        console.log("contacto:", contacto);
-        console.log("status_code: " + request.status);
-
-        const tbody_contactos = document.getElementById("tbody_contactos");
-
-        if (contacto) {
+            const tbody_contactos = document.getElementById("tbody_contactos");
             var tr = document.createElement("tr");
             var td_email = document.createElement("td");
             var td_nombre = document.createElement("td");
@@ -33,27 +64,33 @@ function getContacto() {
 
             tbody_contactos.appendChild(tr);
         } else {
-            console.error("No se encontró el contacto");
+            handleErrorResponse(request.status, request.statusText);
         }
     };
 }
 
-function deleteContacto() {
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get('email');
+function deleteData(email) {
+    const token = sessionStorage.getItem('token');
 
-    var request = new XMLHttpRequest();
-    //request.open('DELETE', "http://127.0.0.1:8000/contactos/" + encodeURIComponent(email));
-    request.open('DELETE', "https://backendapi-b8813c2df8d9.herokuapp.com/contactos/" + encodeURIComponent(email));
-    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    if (!token) {
+        console.error('Token not found. Redirecting to login page.');
+        window.location.href = '/login';
+        return;
+    }
 
-    request.onload = (e) => {
-        if (request.status === 200) {
-            console.log("Contacto eliminado correctamente.");
-            window.location.href = "/";
-        } else {
-            console.error("Error al eliminar el contacto.");
+    const request = new XMLHttpRequest();
+    request.open('DELETE', "http://127.0.0.1:8000/contactos/" + email, true);
+    request.setRequestHeader('Authorization', `Bearer ${token}`);
+
+    request.onload = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                alert("Borrado con éxito");
+                window.location.href = '/';
+            } else {
+                alert("Ocurrió un error");
+            }
         }
     };
-    request.send();
+    request.send(null);
 }

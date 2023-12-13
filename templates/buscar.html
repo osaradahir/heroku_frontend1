@@ -3,7 +3,7 @@
 <head>
     <title>Buscar contacto</title>
     <link rel="stylesheet" href="../static/js/css/buscar.css">
-    <script type="text/javascript" src="../static/js/get_all.js"></script>
+    <script type="text/javascript" src="../static/js/get.js"></script>
 </head>
 <body>
     <h1>Buscar contacto</h1>
@@ -26,14 +26,51 @@
         </table>
     </div>
     <button onclick="cancelar()" class="button1">Volver</button>
+
+    <div id="detalle"></div>
+
     <script>
         function cancelar() {
-            window.location.href = "/";
+            window.location.href = "/inicio";
         }
-        function searchContact() {
-            const email = document.getElementById("emailInput").value;
-            getContactByEmail(email);
+
+        async function searchContact() {
+            var emailInput = document.getElementById("emailInput");
+            var email = emailInput.value;
+            await getContactById(email);
+            // Limpiar el campo de entrada después de obtener el valor
+            emailInput.value = "";
         }
+
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                    }
+                });
+                if (response.status === 401){
+                    window.location.href = "/login";
+                }
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('statusMessage').innerText = `Server response: ${data.message}`;
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error checking server status:', errorData);
+                    document.getElementById('statusMessage').innerText = `Error: ${errorData.message}`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('statusMessage').innerText = 'Error checking server status';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        checkServerStatus();
+        });
+
     </script>
 </body>
 </html>

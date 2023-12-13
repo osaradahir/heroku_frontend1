@@ -1,26 +1,81 @@
-function insertContactPost(nombre, email, telefono) {
-    console.log("Enviando solicitud POST...");
+const SERVER_URL = "http://127.0.0.1:8000";
+const ENDPOINT = "/contactos/"
 
-    var request = new XMLHttpRequest();
-    //request.open('POST', 'http://127.0.0.1:8000/contactos');
-    request.open('POST', 'https://backendapi-b8813c2df8d9.herokuapp.com/contactos');
-    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
-    const nuevoContacto = {
-        nombre: nombre,
+async function insertData(email, nombre, telefono) {
+    const token = sessionStorage.getItem('token');
+    var data = {
         email: email,
+        nombre: nombre,
         telefono: telefono
     };
-    request.onload = function () {
-        console.log("status_code: " + request.status);
-        if (request.status == 200) {
-            const data = JSON.parse(request.responseText);
-            alert("Contacto ingresado:\nNombre: " + data.nombre + "\nEmail: " + data.email + "\nTeléfono: " + data.telefono);
-            window.location.href = "/";
-        } else {
-            console.error('Error:', request.status, request.statusText);
-        }
-    };
 
-    request.send(JSON.stringify(nuevoContacto));
+    if (!token) {
+        console.error('Token not found. Redirecting to login page.');
+        window.location.href = '/login';
+        return;
+    }
+
+    try {
+        const respuestaServidorStatus = await checarStatus();
+        console.log(respuestaServidorStatus.status);
+
+        if (respuestaServidorStatus.status === 200){
+
+            var respuestaContactos = await insertarContacto(data, token)
+            console.log(respuestaContactos.status);
+
+            if (respuestaContactos.status === 200){
+                window.location.href = "/inicio";
+                return alert("Contacto ingresado correctamente");
+            } else {
+                manejarRespuestaError(respuestaContactos.status, respuestaContactos.statusText);
+            }
+
+        } else if (respuestaServidorStatus.status === 401){
+            window.location.href = "/login";
+            return alert("Token Invalido");
+        } else {
+            manejarRespuestaError(respuestaServidorStatus.status, respuestaServidorStatus.statusText)
+        }
+    } catch(error) {
+        console.error("Error", error);
+        document.getElementById("statusMessage").innerHTML = "Error checando el estado del servidor";
+    }
+
+
+}
+
+async function insertarContacto(data, token){
+    const request = new XMLHttpRequest();
+
+    if(!data){
+        console.log('Ocurrió un error');
+    }
+
+    request.open('POST', `${SERVER_URL}${ENDPOINT}`, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.setRequestHeader('Authorization', `Bearer ${token}`);
+
+    return new Promise((resolve, reject) => {
+        request.onload = () => resolve(request)
+        request.onerror = (error) => reject(error);
+        request.send(JSON.stringify(data));
+        console.log(request)
+        
+    });
+
+}
+
+function checarStatus(){
+    return fetch(`${SERVER_URL}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+    });
+}
+
+function manejarRespuestaError(status, statusText){
+    console.error(`Error: ${status} - ${statusText}`);
+
 }

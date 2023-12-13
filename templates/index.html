@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <title>Contactos</title>
-        <link rel="stylesheet" href="../static/js/css/tablas.css">
-        <script type="text/javascript" src="../static/js/get_all.js"></script>
-    </head>
-
-    <body>
-        <h1>Contactos</h1>
-        <a href="buscar" class="button">Buscar</a>
-        <a href="insertar" class="button">Insertar</a>
-        <br>
-        <br>
-        <div class="table-container">
-            <table border="1" id="table_contactos" class="datagrid">
-                <thead id="thead_contactos">
-                    <th>Email</th>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Opciones</th>
-                </thead>
-                <tbody id="tbody_contactos">
-                </tbody>
-            </table>
-        </div>
-        <script>
-            document.body.onload = getAll();
-        </script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Mi Sitio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 40px;
+        }
+        h1 {
+            color: #3498db;
+        }
+        p {
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a Mi Sitio</h1>
+    </header>
+    <main>
+        <p>¡Hola! Gracias por visitar mi sitio. Espero que encuentres contenido interesante y relevante.</p>
+        
+        <button onclick="window.location.href='/login'">Iniciar Sesión</button>
+        <button onclick="window.location.href='/registro'">Registrarse</button>
+    </main>
+    <footer>
+        <p>&copy; 2023 Mi Sitio. Todos los derechos reservados.</p>
+    </footer>
+</body>
 </html>

@@ -1,39 +1,89 @@
-/* Estilos para centrar el contenido */
-.center-content {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Esto centrará verticalmente en la página */
+/* Estilos para la tabla */
+.table-container {
+  width: 80%;
+  text-align: center; /* Centra horizontalmente el contenido de la tabla */
+  margin-top: 3%; /* Centra la tabla verticalmente en la mitad de la página */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Estilos para el botón y el input */
+.datagrid {
+  font-size: 16px;
+  border-collapse: collapse;
+  width: 100%;
+  /* margin: 0 auto; */ /* No es necesario ya que está dentro de .table-container */
+}
+
+/* Estilo para las cabeceras de la tabla */
+.datagrid th {
+  background-color: #006699;
+  color: #FFFFFF;
+  width: 33.33%; /* Establece el ancho igual para cada columna */
+}
+
+/* Estilos para las celdas pares de la tabla */
+.datagrid tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para las celdas impares de la tabla */
+.datagrid tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Estilos para las celdas de datos */
+.datagrid td {
+  width: 33.33%; /* Establece el ancho igual para cada columna de datos */
+  padding: 10px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+/* Estilos para el botón y el contenedor (izquierda y separación) */
 .button-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #006699;
-    color: #FFFFFF;
-    border: 1px solid #006699;
-    border-radius: 3px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-    margin:0 10px; /* Ajusta el espacio entre el botón y otros elementos */
+  display: inline-block;
+  padding: 20px 40px; /* Aumenta el tamaño de los botones */
+  background: #006699;
+  color: #FFFFFF;
+  border: 1px solid #006699;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  margin-right: 10px;
 }
 
-.button:hover {
-    background: #00557F;
+.button1 {
+  display: inline-block;
+  padding: 20px 40px; /* Aumenta el tamaño de los botones */
+  background: #006699;
+  color: #FFFFFF;
+  border: 1px solid #006699;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  margin-right: 10px;
+  margin-top: 7%;
 }
 
-.input {
-    padding: 10px;
-    border: 1px solid #006699;
-    border-radius: 3px;
-    margin: 10px 0; /* Ajusta el espacio entre el input y otros elementos */
+.button1:hover {
+  background: #00557F;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #006699;
+  border-radius: 3px;
+  margin-right: 10px;
 }
